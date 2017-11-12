@@ -1,0 +1,15 @@
+{
+  "name": "CCA-test",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "chessboardjs": "0.0.1",
+    "ejs": "^2.5.7",
+    "express": "^3.2.6",
+    "stockfish": "^8.0.0"
+  }
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<link rel="stylesheet" href="/analyze/css/chessboard-0.3.0.css">
+	<link rel="stylesheet" href="/analyze/css/analyze.css">
+	<script type="text/javascript" src="/analyze/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/analyze/js/chessboard-0.3.0.js"></script>
+	<head>
+		<title><%= title %></title>
+	</head>
+	<body>
+		<h1>Analyze Start.</h1>
+		<p>Chess-Commentary-Automatic By donta1024, ishihara1989, interimadd & AyatsujiP</p>
+		<div id="board" style="width: 30%;"></div>
+		
+		<div class="FEN_input">
+			<p>FEN:&nbsp;&nbsp;<input id="FEN" type="text" name="FEN" style="width: 30%"></p>
+			<p><input type="button" name="FENsubmit" value="submit FEN" onClick="submitFEN(board);"></p>
+		<div>
+		<div class="PGN_input">
+			<p>PGN:&nbsp;&nbsp;<textarea id="PGN" type="text" name="PGN" style="width:30%; height: 200px;"></textarea></p>
+			<p><input type="button" name="PGNsubmit" value="submit PGN" onClick="submitPGN(board);"></p>
+		<div>
+		
+		<form name="PGNSubmitForm" action="submit" method="POST">
+			<input type="hidden" name='"PGNtoAnalyze"' value="">
+		</form>
+	</body>
+	<script>
+		var board = ChessBoard('board',{position: 'start', draggable: true});
+		
+		function submitFEN(board){
+			elem = document.getElementById("FEN");
+			insertFEN = elem.value;
+			
+			board.position(elem.value);
+		};
+		
+		function submitPGN(){
+			elem = document.getElementById("PGN");
+			document.forms.PGNSubmitForm.PGNtoAnalyze.value = elem.value;
+			var f = document.forms["PGNSubmitForm"];
+			f.method = "POST";
+			f.submit(); 
+		};
+	</script>
+</html>
