@@ -57,3 +57,11 @@ typings/
 
 # dotenv environment variables file
 .env
+
+.jshintrc
+.project
+.pydevproject
+.sublime-project
+.tern-project
+package-lock.json
+pymodules/stockfish
