@@ -80,6 +80,12 @@ class Board extends React.Component{
 							</Form>
 						</Grid.Column>
 						<Grid.Column>
+							<Form action="create_commentary" method="POST">
+								<input type="hidden"  readOnly={true} name="analyzeString" value={this.state.analyzeResult}></input>
+								<input type="hidden"  readOnly={true} name="fen" value={this.state.fen}></input>
+								<input type="hidden"  readOnly={true} name="pgn" value={this.state.pgn}></input>
+								<Button type="submit">Request For Comment</Button>
+							</Form>
 							<p>FEN String: {this.state.fen}</p>
 							<Accordion panels={panels} />
 						</Grid.Column>
