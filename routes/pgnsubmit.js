@@ -13,7 +13,7 @@ const startPos = chessCurrent.fen();
 exports.start = function(req,res){
 	
 	var analyzeResult = "";
-	this.analyzeResults = {"result":[]};
+	this.analyzeResults = {"result":[],"pgn":""};
 	this.ct = 0;
 	var body = req.body;
 	var pgn = body.PGNtoAnalyze.replace('/\+/g',' ');
@@ -25,6 +25,7 @@ exports.start = function(req,res){
 
 var pgnLoad = function(res,pgn,callback,callback2){
 	chess.load(pgn);
+	this.analyzeResults["pgn"] = pgn;
 	callback(res,pgn,callback2);
 }
 
