@@ -17,8 +17,8 @@ exports.start = function(req,res){
 
 	evaluator.executeCallbackfuncAfterEvaluationFinish( function(){
 
-	    console.log("Res:");
-	    console.log(evaluator.analysis_result);
+	    //console.log("Res:");
+	    //console.log(evaluator.analysis_result);
 	    analyzeResult =JSON.stringify({"result":[evaluator.analysis_result],"pgn":null});
 
 	    res.render('fensubmit',{'FEN':analyze_string,"analyzeResult":analyzeResult});

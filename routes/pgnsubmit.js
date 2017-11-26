@@ -48,8 +48,8 @@ var loop = function(res,fens,pgn){
 		this.evaluator.executeCallbackfuncAfterEvaluationFinish(
 				function(){
 					this.ct += 1;
-				    console.log(ct + " Res:");
-				    console.log(this.evaluator.analysis_result);
+				    //console.log(ct + " Res:");
+				    //console.log(this.evaluator.analysis_result);
 				    this.analyzeResults["result"].push(this.evaluator.analysis_result);
 				    if (this.ct == fens.length){
 				    	res.render("pgnsubmit",{"analyzeResult":JSON.stringify(this.analyzeResults),"pgn":pgn});
