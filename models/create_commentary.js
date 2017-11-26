@@ -63,7 +63,7 @@ class Board extends React.Component{
 			</Menu>
 			<Container style={{ marginTop: '3em' }} attached='bottom'>
 				<div>
-					<Header as='h1'> submit succeeded!</Header>
+					<Header as='h1'> Comment created!</Header>
 					<Grid columns={2} stackable>
 						<Grid.Column>
 							<Chessdiagram
