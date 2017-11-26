@@ -6,6 +6,7 @@ var express = require('express')
   , routes = require('./routes')
   , fensubmit = require('./routes/fensubmit')
   , pgnsubmit = require('./routes/pgnsubmit')
+  , create_commentary = require('./routes/create_commentary')
   , http = require('http')
   , path = require('path');
 
@@ -40,7 +41,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.post('/fensubmit', fensubmit.start);
 app.post('/pgnsubmit', pgnsubmit.start);
-
+app.post('/create_commentary', create_commentary.start);
 
 function serverSet(app,callback){
 	var server = http.createServer(app);
