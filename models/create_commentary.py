@@ -31,19 +31,22 @@ class CreateCommentary():
     def analyze(self):
         for i,tg in enumerate(self.analyze_json):
             analyze_string = ""
-            analyze_string += self.best_move(tg)
-            analyze_string += self.best_line(tg)
-            analyze_string += self.material_eval(tg)
-            analyze_string += self.pieces_eval(tg)
-            analyze_string += self.mobility_eval(tg)
-            analyze_string += self.pawn_eval(tg)
-            analyze_string += self.safety_eval(tg)
-            analyze_string += self.passpawn_eval(tg)
-            analyze_string += self.threat_eval(tg)
-            analyze_string += self.space_eval(tg)
-            
-            
-            analyze_string += self.evaluate(tg)
+            if tg["best_move"] in ["(none)",]:
+                analyze_string = "チェックメイト。"
+            else:
+                analyze_string += self.best_move(tg)
+                analyze_string += self.best_line(tg)
+                analyze_string += self.material_eval(tg)
+                analyze_string += self.pieces_eval(tg)
+                analyze_string += self.mobility_eval(tg)
+                analyze_string += self.pawn_eval(tg)
+                analyze_string += self.safety_eval(tg)
+                analyze_string += self.passpawn_eval(tg)
+                analyze_string += self.threat_eval(tg)
+                analyze_string += self.space_eval(tg)
+                
+                
+                analyze_string += self.evaluate(tg)
             
             self.comments[i] += analyze_string
         
