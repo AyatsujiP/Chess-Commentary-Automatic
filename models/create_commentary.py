@@ -33,6 +33,8 @@ class CreateCommentary():
             analyze_string = ""
             analyze_string += self.best_move(tg)
             analyze_string += self.best_line(tg)
+            analyze_string += self.material_eval(tg)
+            analyze_string += self.pieces_eval(tg)
             analyze_string += self.evaluate(tg)
             
             self.comments[i] += analyze_string
@@ -100,6 +102,48 @@ class CreateCommentary():
             pointer = 8
             
         return "この局面は" + ret[pointer] +"。"
+    
+    def material_eval(self,tg):
+        material = float(tg["material"]["total"]["MG"]) + float(tg["material"]["total"]["EG"])
+        
+        if abs(material) < 1:
+            return "大きな駒の損得はない。"
+        elif material > 0 :
+            return "白が駒得の局面。"
+        elif material < 0:
+            return "黒が駒得の局面。"
+        
+        
+    
+    def pieces_eval(self,tg):
+        pieces = {"knight": float(tg["knight"]["total"]["MG"]) + float(tg["knight"]["total"]["EG"]),
+                    "bishop": float(tg["bishop"]["total"]["MG"]) + float(tg["bishop"]["total"]["EG"]),
+                    "rook": float(tg["rook"]["total"]["MG"]) + float(tg["rook"]["total"]["EG"]),
+                    "queen": float(tg["queen"]["total"]["MG"]) + float(tg["queen"]["total"]["EG"])}
+
+        
+        if float(tg["material"]["total"]["MG"]) + float(tg["material"]["total"]["EG"]) > 0:
+            sort = sorted(pieces.items(),key = lambda x: -x[1])
+            
+            return self.pieces_eval_return(sort)
+           
+        else:
+            sort = sorted(pieces.items(),key = lambda x: x[1])
+            return self.pieces_eval_return(sort)
+            
+    def pieces_eval_return(self,sort):
+        if sort[0][0] in ["knight",]:
+            return "ナイトの働きは先手のほうが良い。"
+        elif sort[0][0] in ["bishop",]:
+            return "ビショップの働きは先手のほうが良い。"
+        elif sort[0][0] in ["rook",]:
+            return "ルークの働きは先手のほうが良い。"
+        elif sort[0][0] in ["queen",]:
+            return "クイーンの働きは先手のほうが良い。"
+        else:
+            return ""        
+
+
 
 def main():
     cc = CreateCommentary()
