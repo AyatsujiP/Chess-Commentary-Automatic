@@ -184,7 +184,7 @@ class CreateCommentary():
             return ""
         
     def passpawn_eval(self,tg):
-        passed_pawn = float(tg["passed_pawn"]["total"]["MG"]) + float(tg["passed_pawn"]["total"]["EG"]);
+        passed_pawn = float(tg["passed_pawn"]["total"]["EG"]);
         if passed_pawn > 0.5:
             return "白のパスポーンが強い。"
         elif passed_pawn < -0.5:
