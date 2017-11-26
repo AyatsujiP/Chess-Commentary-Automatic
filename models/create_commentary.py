@@ -35,6 +35,14 @@ class CreateCommentary():
             analyze_string += self.best_line(tg)
             analyze_string += self.material_eval(tg)
             analyze_string += self.pieces_eval(tg)
+            analyze_string += self.mobility_eval(tg)
+            analyze_string += self.pawn_eval(tg)
+            analyze_string += self.safety_eval(tg)
+            analyze_string += self.passpawn_eval(tg)
+            analyze_string += self.threat_eval(tg)
+            analyze_string += self.space_eval(tg)
+            
+            
             analyze_string += self.evaluate(tg)
             
             self.comments[i] += analyze_string
@@ -109,9 +117,9 @@ class CreateCommentary():
         if abs(material) < 1:
             return "大きな駒の損得はない。"
         elif material > 0 :
-            return "白が駒得の局面。"
+            return "白のほうが駒得、あるいは駒の効率が良い。"
         elif material < 0:
-            return "黒が駒得の局面。"
+            return "黒のほうが駒得、あるいは駒の効率が良い。"
         
         
     
@@ -121,30 +129,92 @@ class CreateCommentary():
                     "rook": float(tg["rook"]["total"]["MG"]) + float(tg["rook"]["total"]["EG"]),
                     "queen": float(tg["queen"]["total"]["MG"]) + float(tg["queen"]["total"]["EG"])}
 
-        
+        #白駒得の場合
         if float(tg["material"]["total"]["MG"]) + float(tg["material"]["total"]["EG"]) > 0:
             sort = sorted(pieces.items(),key = lambda x: -x[1])
             
-            return self.pieces_eval_return(sort)
-           
+            return self.pieces_eval_return(sort, "白")
+        
+        #黒駒得の場合
         else:
             sort = sorted(pieces.items(),key = lambda x: x[1])
-            return self.pieces_eval_return(sort)
+            return self.pieces_eval_return(sort, "黒")
             
-    def pieces_eval_return(self,sort):
-        if sort[0][0] in ["knight",]:
-            return "ナイトの働きは先手のほうが良い。"
-        elif sort[0][0] in ["bishop",]:
-            return "ビショップの働きは先手のほうが良い。"
-        elif sort[0][0] in ["rook",]:
-            return "ルークの働きは先手のほうが良い。"
-        elif sort[0][0] in ["queen",]:
-            return "クイーンの働きは先手のほうが良い。"
+    def pieces_eval_return(self,sort,col):
+        if abs(sort[0][1]) > 0.3:
+            if sort[0][0] in ["knight",]:
+                return "ナイトの働きは"+col+"のほうが良い。"
+            elif sort[0][0] in ["bishop",]:
+                return "ビショップの働きは"+col+"のほうが良い。"
+            elif sort[0][0] in ["rook",]:
+                return "ルークの働きは"+col+"のほうが良い。"
+            elif sort[0][0] in ["queen",]:
+                return "クイーンの働きは"+col+"のほうが良い。"
         else:
             return ""        
 
+    def mobility_eval(self,tg):
+        mobility = float(tg["mobility"]["total"]["MG"]) + float(tg["mobility"]["total"]["EG"]);
+        if mobility > 0.5:
+            return "白のほうが駒が動かしやすい局面。"
+        elif mobility < -0.5:
+            return "黒のほうが駒が動かしやすい局面。"
+        else:
+            return ""
 
-
+    def pawn_eval(self,tg):
+        pawn = float(tg["pawn"]["total"]["MG"]) + float(tg["pawn"]["total"]["EG"]);
+        if pawn > 0.5:
+            return "白のほうがポーン形が良い。"
+        elif pawn < -0.5:
+            return "黒のほうがポーン形が良い。"
+        else:
+            return ""
+    
+    def threat_eval(self,tg):
+        threat = float(tg["threats"]["total"]["MG"]) + float(tg["threats"]["total"]["EG"]);
+        if threat > 0.5:
+            return "白に狙いが多い局面。"
+        elif threat < -0.5:
+            return "黒に狙いが多い局面。"
+        else:
+            return ""
+        
+    def passpawn_eval(self,tg):
+        passed_pawn = float(tg["passed_pawn"]["total"]["MG"]) + float(tg["passed_pawn"]["total"]["EG"]);
+        if passed_pawn > 0.5:
+            return "白のパスポーンが強い。"
+        elif passed_pawn < -0.5:
+            return "黒のパスポーンが強い。"
+        else:
+            return ""
+                
+    def safety_eval(self,tg):
+        king_safety = float(tg["king_safety"]["total"]["MG"]) + float(tg["king_safety"]["total"]["EG"])
+        if king_safety > 5.0:
+            return "黒のキングは極めて危険な状態。"
+        elif king_safety > 2.5:
+            return "黒のキングは危険。"
+        elif king_safety > 1.0:
+            return "黒のキングはやや危険な状態。"
+        elif king_safety < -5.0:
+            return "白のキングは極めて危険な状態。"
+        elif king_safety < -2.5:
+            return "白のキングは危険。"
+        elif king_safety < -1.0:
+            return "白のキングはやや危険な状態。"
+        else:
+            return ""
+    
+    def space_eval(self,tg):
+        space = float(tg["space"]["total"]["MG"]) + float(tg["space"]["total"]["EG"]);
+        if space > 0.5:
+            return "白のスペースが広い。"
+        elif space < -0.5:
+            return "黒のスペースが広い。"
+        else:
+            return ""
+           
 def main():
     cc = CreateCommentary()
     cc.read_in()

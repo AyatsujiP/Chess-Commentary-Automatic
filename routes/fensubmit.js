@@ -13,7 +13,7 @@ exports.start = function(req,res){
     
     console.log("FEN string: " + analyze_string);
 		
-	evaluator = new evaluateBoard.EvaluateBoard(analyze_string,2);
+	evaluator = new evaluateBoard.EvaluateBoard(analyze_string,6);
 
 	evaluator.executeCallbackfuncAfterEvaluationFinish( function(){
 

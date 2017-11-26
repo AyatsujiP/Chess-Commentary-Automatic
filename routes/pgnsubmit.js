@@ -43,7 +43,7 @@ var loading = function(res,pgn,callback){
 var loop = function(res,fens,pgn){
 	
 	async.forEachSeries(fens,function(fen,callback){
-		this.evaluator = new evaluateBoard.EvaluateBoard(fen,2);
+		this.evaluator = new evaluateBoard.EvaluateBoard(fen,6);
 
 		this.evaluator.executeCallbackfuncAfterEvaluationFinish(
 				function(){
